@@ -17,6 +17,8 @@ import scapy.all as scapy
 ack_list =[]
 
 def set_load(packet, load):
+    # Optional func
+    pass
 
 def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
@@ -36,7 +38,7 @@ def process_packet(packet):
                 del scapy_packet[scapy.IP].len
                 del scapy_packet[scapy.IP].chksum
                 del scapy_packet[scapy.TCP].chksum
-                packet.set_payload(scapy.packet)
+                packet.set_payload(str(scapy.packet))
             # print("HTTP Response")
             # print(scapy_packet.show())
 
