@@ -7,7 +7,7 @@
 import netfilterqueue
 
 def process_packet(packet):
-    print(packet)
+    print(packet.get_payload())
     packet.accept()     # forwards the packet to the remote computer
     # packet.drop()
 
