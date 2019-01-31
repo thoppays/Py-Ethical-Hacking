@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # Try from the Linux machine
-# Run the linux command first - iptables -I FORWARD -j NFQUEUE ---queue-num 0
+# Run the linux command first - iptables -I FORWARD -j NFQUEUE --queue-num 0
 # When done, run - iptables --flush
 
 import netfilterqueue
